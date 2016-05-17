@@ -1,0 +1,27 @@
+LOAD CSV  
+      FROM all filenames matching ~<.*dat$>
+         in directory '~/Development/DSE/DSE220/IRI_Data/Year1/External/saltsnck/'
+     (panid, week, units, outlet, dollars, IRI_KEY, COLUPC)  
+     INTO postgresql:///dse220?panels (panid, week, units, outlet, dollars, IRI_KEY, COLUPC)  
+
+     WITH truncate,  
+          skip header = 1,  
+          fields optionally enclosed by '"',  
+          fields terminated by '\t'  
+
+      SET client_encoding to 'latin1',  
+          work_mem to '12MB',  
+          standard_conforming_strings to 'on'  
+
+   BEFORE LOAD DO  
+    $$ drop table if exists panels; $$,  
+    $$ create table panels (  
+        panid integer,  
+        week integer,  
+        units integer,  
+        outlet varchar(2),
+        dollars float,
+        IRI_KEY integer,
+        COLUPC bigint  
+       );  
+  $$; 

@@ -1,0 +1,41 @@
+LOAD CSV  
+      FROM all filenames matching ~'prod_saltsnck.csv'
+        in directory '~/Development/DSE/DSE220/IRI_Data/'
+     (L1,L2,L3,L4,L5,L9,Level,UPC,SY,GE,VEND,ITEM,STUBSPEC_1431RC,VOL_EQ,PRODUCT_TYPE,PACKAGE,FLAVOR_SCENT,FAT_CONTENT,COOKING_METHOD,SALT_SODIUM_CONTENT,TYPE_OF_CUT)  
+     INTO postgresql:///dse220?products (L1,L2,L3,L4,L5,L9,Level,UPC,SY,GE,VEND,ITEM,STUBSPEC_1431RC,VOL_EQ,PRODUCT_TYPE,PACKAGE,FLAVOR_SCENT,FAT_CONTENT,COOKING_METHOD,SALT_SODIUM_CONTENT,TYPE_OF_CUT)  
+
+     WITH truncate,  
+          skip header = 1,  
+          fields optionally enclosed by '"',  
+          fields terminated by ','  
+
+      SET client_encoding to 'latin1',  
+          work_mem to '12MB',  
+          standard_conforming_strings to 'on'  
+
+   BEFORE LOAD DO  
+    $$ drop table if exists products; $$,  
+    $$ create table products (  
+      L1 varchar(255),
+      L2 varchar(255),
+      L3 varchar(255),
+      L4 varchar(255),
+      L5 varchar(255),
+      L9 varchar(255),
+      Level integer,
+      UPC varchar(255),
+      SY integer,
+      GE integer,
+      VEND integer,
+      ITEM integer,
+      STUBSPEC_1431RC varchar(255),
+      VOL_EQ float,
+      PRODUCT_TYPE varchar(255),
+      PACKAGE varchar(255),
+      FLAVOR_SCENT varchar(255),
+      FAT_CONTENT varchar(255),
+      COOKING_METHOD varchar(255),
+      SALT_SODIUM_CONTENT varchar(255),
+      TYPE_OF_CUT varchar(255)
+       );  
+  $$; 

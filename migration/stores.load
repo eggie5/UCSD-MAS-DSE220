@@ -1,28 +1,29 @@
-BEFORE LOAD DO  
-     $$ drop table if exists fixed; $$,  
-     $$ create table fixed (  
-         a integer,  
-         b date,  
-         c time,  
-         d text  
-        );  
-     $$;  
-     
 LOAD FIXED  
-FROM  '~/Development/DSE/DSE220/IRI_Data/Year1/External/saltsnck/saltsnck_drug_1114_1165/'
-WITH ENCODING latin1 (  
-              IRI_Key           from   1 for  6,  
-              week           from   7 for  11,  
-              sy      from   4 for  5,  
-              ge from   9 for 64,  
-              vend              from  73 for  9,  
-              item           from  82 for  9,  
-              units           from  91 for 14,  
-              dollars          from 105 for 14,  
-              f            from 119 for 14,  
-              d            from 131 for 14,  
-              pr            from 143 for 10
-           )  
-INTO postgresql://sharknado:sharknado@sharknado.ceg3hdkdq8l0.us-east-1.rds.amazonaws.com:5432/sharknado 
-(  IRI_Key, week, sy, ge  ); 
+    FROM  '~/Development/DSE/DSE220/IRI_Data/Year1/External/saltsnck/Delivery_Stores'
+    (  
+                IRI_Key           from   1 for  6,  
+                OU           from   8 for  2,  
+                EST_ACV      from   11 for  8,  
+                MarketName from   20 for 24,  
+                Open              from  45 for  4,  
+                Clsd           from  50 for  4,  
+                MskdName from 55 for 8
+             )  
+  INTO  postgresql:///dse220?stores (  IRI_Key, OU, EST_ACV, MarketName, Open, Clsd, MskdName)
+  WITH skip header=2
+
+  BEFORE LOAD DO  
+       $$ drop table if exists stores; $$,  
+       $$ create table stores (  
+           IRI_Key integer,
+           OU varchar(5),
+           EST_ACV float,
+           MarketName varchar(26),
+           Open integer,
+           Clsd integer,
+           MskdName varchar(9)
+          );  
+       $$;
+
+
 

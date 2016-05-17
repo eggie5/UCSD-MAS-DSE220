@@ -1,0 +1,51 @@
+LOAD FIXED  
+  FROM all filenames matching ~<saltsnck_[drug|groc]>
+     in directory '~/Development/DSE/DSE220/IRI_Data/'
+    (  
+                IRI_Key           from   1 for  6,  
+                week           from   8 for  4,  
+                sy      from   14 for  1,  
+                ge from   17 for 1,  
+                vend              from  19 for  5,  
+                item           from  26 for  4,  
+                units           from  32 for 4,  
+                dollars          from 39 for 6,  
+                f            from 46 for 4,  
+                d            from 51 for 1,  
+                pr            from 53 for 1
+             )  
+  INTO  postgresql:///dse220?transactions (  
+    IRI_Key, 
+    week, 
+    sy, 
+    ge, 
+    vend, 
+    item, 
+    units, 
+    dollars, 
+    f, d, 
+    pr)
+  WITH skip header=2
+
+-- should rename this the transacations table
+  BEFORE LOAD DO  
+       $$ drop table if exists transactions; $$,  
+       $$ create table transactions (  
+           IRI_Key integer,
+           _year integer,
+           _type varchar(10) NOT NULL default 'drug',  
+           week integer,  
+           sy  integer,  
+           ge text ,
+           vend integer,
+           item integer,
+           units integer,
+           dollars float,
+           f varchar(15),
+           d integer,
+           pr integer
+          );  
+       $$;
+
+
+
