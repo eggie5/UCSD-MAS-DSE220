@@ -1,8 +1,8 @@
 LOAD CSV  
-      FROM all filenames matching ~<.*dat$>
-         in directory '~/Development/DSE/DSE220/IRI_Data/Year1/External/saltsnck/'
+      FROM all filenames matching ~<saltsnck_PANEL.*dat$>
+         in directory '~/Development/DSE/DSE220/IRI_Data/'
      (panid, week, units, outlet, dollars, IRI_KEY, COLUPC)  
-     INTO postgresql:///dse220?panels (panid, week, units, outlet, dollars, IRI_KEY, COLUPC)  
+     INTO postgresql://sharknado:sharknado@sharknado-dse.ceg3hdkdq8l0.us-east-1.rds.amazonaws.com/sharknado?panels (panid, week, units, outlet, dollars, IRI_KEY, COLUPC)  
 
      WITH truncate,  
           skip header = 1,  

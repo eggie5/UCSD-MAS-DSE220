@@ -2,7 +2,8 @@ LOAD CSV
       FROM all filenames matching ~'prod_saltsnck.csv'
         in directory '~/Development/DSE/DSE220/IRI_Data/'
      (L1,L2,L3,L4,L5,L9,Level,UPC,SY,GE,VEND,ITEM,STUBSPEC_1431RC,VOL_EQ,PRODUCT_TYPE,PACKAGE,FLAVOR_SCENT,FAT_CONTENT,COOKING_METHOD,SALT_SODIUM_CONTENT,TYPE_OF_CUT)  
-     INTO postgresql:///dse220?products (L1,L2,L3,L4,L5,L9,Level,UPC,SY,GE,VEND,ITEM,STUBSPEC_1431RC,VOL_EQ,PRODUCT_TYPE,PACKAGE,FLAVOR_SCENT,FAT_CONTENT,COOKING_METHOD,SALT_SODIUM_CONTENT,TYPE_OF_CUT)  
+     INTO postgresql://sharknado:sharknado@sharknado-dse.ceg3hdkdq8l0.us-east-1.rds.amazonaws.com/sharknado?products 
+     (L1,L2,L3,L4,L5,L9,Level,UPC,SY,GE,VEND,ITEM,STUBSPEC_1431RC,VOL_EQ,PRODUCT_TYPE,PACKAGE,FLAVOR_SCENT,FAT_CONTENT,COOKING_METHOD,SALT_SODIUM_CONTENT,TYPE_OF_CUT)  
 
      WITH truncate,  
           skip header = 1,  

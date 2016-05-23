@@ -1,5 +1,6 @@
 LOAD FIXED  
-    FROM  '~/Development/DSE/DSE220/IRI_Data/Year1/External/saltsnck/Delivery_Stores'
+    FROM all filenames matching ~<Delivery_Stores$>
+      in directory '~/Development/DSE/DSE220/IRI_Data/'
     (  
                 IRI_Key           from   1 for  6,  
                 OU           from   8 for  2,  
@@ -9,7 +10,7 @@ LOAD FIXED
                 Clsd           from  50 for  4,  
                 MskdName from 55 for 8
              )  
-  INTO  postgresql:///dse220?stores (  IRI_Key, OU, EST_ACV, MarketName, Open, Clsd, MskdName)
+  INTO  postgresql://sharknado:sharknado@sharknado-dse.ceg3hdkdq8l0.us-east-1.rds.amazonaws.com/sharknado?stores (  IRI_Key, OU, EST_ACV, MarketName, Open, Clsd, MskdName)
   WITH skip header=2
 
   BEFORE LOAD DO  

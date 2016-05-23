@@ -1,16 +1,31 @@
 -- punting on this dataset for now b/c the columns change in later years...
+-- works on 1-7
+-- at year 8 these columsn are removed
+-- {'HH Head Race (RACE2)',
+--  'HH Head Race (RACE3)',
+--  'HH_AGE',
+--  'HH_EDU',
+--  'HH_OCC',
+--  'HH_RACE',
+--  'HISP_FLAG',
+--  'Language',
+--  'Microwave Owned by HH',
+--  'Number of TVs Hooked to Cable',
+--  'Number of TVs Used by HH',
+--  'Year'}
 LOAD CSV  
-      FROM '~/Development/DSE/DSE220/IRI_Data/demos\ trips\ external\ 1_11\ may\ 13/ads\ demo1.csv'
+  FROM all filenames matching ~<ads\sdemo[s]?[1-7]\.csv>
+     in directory '~/Development/DSE/DSE220/IRI_Data/demos\ trips\ external\ 1_11\ may\ 13/'
      (Panelist_ID, 
       Panelist_Type, 
-      Combined_Pre_Tax_Income_of_HH, 
+      Combined_Pre_Tax_Income_of_HH [null if "."], 
       Family_Size, 
       HH_RACE [null if "."],
       Type_of_Residential_Possession,
       COUNTY [null if "."], 
-      HH_AGE,
-      HH_EDU, 
-      HH_OCC,
+      HH_AGE [null if "."], 
+      HH_EDU  [null if "."],  
+      HH_OCC [null if "."], 
       Age_Group_Applied_to_Male_HH, 
       Education_Level_Reached_by_Male_HH, 
       Occupation_Code_of_Male_HH, 
@@ -28,11 +43,11 @@ LOAD CSV
       Language [null if "."], 
       Number_of_TVs_Used_by_HH [null if "."],
       Number_of_TVs_Hooked_to_Cable [null if "."], 
-      Year, 
+      Year [null if "."], 
       HISP_FLAG [null if "."],
       HISP_CAT [null if "."], 
       HH_Head_Race_RACE2 [null if "."], 
-      HH_Head_Race_RACE3, 
+      HH_Head_Race_RACE3 [null if "."], 
       Microwave_Owned_by_HH [null if "."],
       ZIPCODE, 
       FIPSCODE, 
@@ -40,7 +55,7 @@ LOAD CSV
       IRI_Geography_Number, 
       EXT_FACT)  
       
-     INTO postgresql:///dse220?panel_demos (
+     INTO postgresql:///dse220?panel_demos_1_7 (
         Panelist_ID, 
         Panelist_Type, 
         Combined_Pre_Tax_Income_of_HH, 
@@ -87,48 +102,48 @@ LOAD CSV
 
       SET client_encoding to 'latin1',  
           work_mem to '12MB',  
-          standard_conforming_strings to 'on'  
-
-   BEFORE LOAD DO  
-    $$ drop table if exists panel_demos; $$,  
-    $$ create table panel_demos (  
-        Panelist_ID integer, 
-        Panelist_Type integer, 
-        Combined_Pre_Tax_Income_of_HH integer, 
-        Family_Size integer, 
-        HH_RACE integer, 
-        Type_of_Residential_Possession integer,
-        COUNTY varchar(5), 
-        HH_AGE integer,
-        HH_EDU integer, 
-        HH_OCC integer,
-        Age_Group_Applied_to_Male_HH integer, 
-        Education_Level_Reached_by_Male_HH integer, 
-        Occupation_Code_of_Male_HH integer, 
-        Male_Working_Hour_Code integer, 
-        MALE_SMOKE integer, 
-        Age_Group_Applied_to_Female_HH integer, 
-        Education_Level_Reached_by_Female_HH integer, 
-        Occupation_Code_of_Female_HH integer, 
-        Female_Working_Hour_Code integer, 
-        FEM_SMOKE integer, 
-        Number_of_Dogs integer, 
-        Number_of_Cats integer, 
-        Children_Group_Code integer, 
-        Marital_Status integer, 
-        Language integer, 
-        Number_of_TVs_Used_by_HH integer, 
-        Number_of_TVs_Hooked_to_Cable integer, 
-        Year integer, 
-        HISP_FLAG integer, 
-        HISP_CAT integer, 
-        HH_Head_Race_RACE2 integer, 
-        HH_Head_Race_RACE3 integer, 
-        Microwave_Owned_by_HH integer, 
-        ZIPCODE integer, 
-        FIPSCODE integer, 
-        market_based_upon_zipcode integer, 
-        IRI_Geography_Number integer, 
-        EXT_FACT integer
-       );  
-  $$; 
+          standard_conforming_strings to 'on' 
+          
+  BEFORE LOAD DO  
+   $$ drop table if exists panel_demos_1_7; $$,  
+   $$ create table panel_demos_1_7 (  
+       Panelist_ID integer, 
+       Panelist_Type integer, 
+       Combined_Pre_Tax_Income_of_HH integer, 
+       Family_Size integer, 
+       HH_RACE integer, 
+       Type_of_Residential_Possession integer,
+       COUNTY varchar(5), 
+       HH_AGE integer,
+       HH_EDU integer, 
+       HH_OCC integer,
+       Age_Group_Applied_to_Male_HH integer, 
+       Education_Level_Reached_by_Male_HH integer, 
+       Occupation_Code_of_Male_HH integer, 
+       Male_Working_Hour_Code integer, 
+       MALE_SMOKE integer, 
+       Age_Group_Applied_to_Female_HH integer, 
+       Education_Level_Reached_by_Female_HH integer, 
+       Occupation_Code_of_Female_HH integer, 
+       Female_Working_Hour_Code integer, 
+       FEM_SMOKE integer, 
+       Number_of_Dogs integer, 
+       Number_of_Cats integer, 
+       Children_Group_Code integer, 
+       Marital_Status integer, 
+       Language integer, 
+       Number_of_TVs_Used_by_HH integer, 
+       Number_of_TVs_Hooked_to_Cable integer, 
+       Year integer, 
+       HISP_FLAG integer, 
+       HISP_CAT integer, 
+       HH_Head_Race_RACE2 integer, 
+       HH_Head_Race_RACE3 integer, 
+       Microwave_Owned_by_HH integer, 
+       ZIPCODE integer, 
+       FIPSCODE integer, 
+       market_based_upon_zipcode integer, 
+       IRI_Geography_Number integer, 
+       EXT_FACT integer
+      );  
+ $$;

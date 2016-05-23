@@ -1,3 +1,4 @@
+-- this takes 3
 LOAD FIXED  
   FROM all filenames matching ~<saltsnck_[drug|groc]>
      in directory '~/Development/DSE/DSE220/IRI_Data/'
@@ -14,7 +15,7 @@ LOAD FIXED
                 d            from 51 for 1,  
                 pr            from 53 for 1
              )  
-  INTO  postgresql:///dse220?transactions (  
+  INTO  postgresql://sharknado:sharknado@sharknado-dse.ceg3hdkdq8l0.us-east-1.rds.amazonaws.com/sharknado?transactions (  
     IRI_Key, 
     week, 
     sy, 
@@ -46,6 +47,16 @@ LOAD FIXED
            pr integer
           );  
        $$;
+       
+       
+--        table name       read   imported     errors            time
+-- -----------------  ---------  ---------  ---------  --------------
+--             fetch          0          0          0          0.007s
+--       before load          2          2          0          1.703s
+-- -----------------  ---------  ---------  ---------  --------------
+--      transactions  224302949  224302927         22    3h46m39.575s
+-- -----------------  ---------  ---------  ---------  --------------
+-- Total import time  224302949  224302927         22    3h46m41.285s
 
 
 
